@@ -15,7 +15,7 @@ async function main() {
 
   const user = await db.user.create({
     data: {
-      name: 'Alex Morgan',
+      name: 'Timotej Demo',
       email: 'demo@gmail.com',
       password: hashedPassword,
     },
