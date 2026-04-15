@@ -9,14 +9,14 @@ async function main() {
   console.log('🌱 Seeding demo user...');
 
   // Remove existing demo user (cascades to budgets + transactions)
-  await db.user.deleteMany({ where: { email: 'demo@mywallet.com' } });
+  await db.user.deleteMany({ where: { email: 'demo@gmail.com' } });
 
-  const hashedPassword = await bcrypt.hash('demo1234', 12);
+  const hashedPassword = await bcrypt.hash('geslo123', 12);
 
   const user = await db.user.create({
     data: {
       name: 'Alex Morgan',
-      email: 'demo@mywallet.com',
+      email: 'demo@gmail.com',
       password: hashedPassword,
     },
   });
@@ -196,8 +196,8 @@ async function main() {
   console.log('✅ Done!');
   console.log('');
   console.log('   Demo account:');
-  console.log('   Email:    demo@mywallet.com');
-  console.log('   Password: demo1234');
+  console.log('   Email:    demo@gmail.com');
+  console.log('   Password: geslo123');
 }
 
 main()
