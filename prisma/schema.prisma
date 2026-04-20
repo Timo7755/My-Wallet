@@ -17,10 +17,12 @@ model User {
   createdAt     DateTime  @default(now())
   updatedAt     DateTime  @updatedAt
 
-  accounts     Account[]
-  sessions     Session[]
-  transactions Transaction[]
-  budgets      Budget[]
+  accounts          Account[]
+  sessions          Session[]
+  transactions      Transaction[]
+  budgets           Budget[]
+  recurringExpenses RecurringExpense[]
+  userCategories    UserCategory[]
 }
 
 model Account {
@@ -65,10 +67,42 @@ model Transaction {
   amount    Float
   userId    String
   budgetId  String?
+  category  String?
+  comment   String?
+  date      DateTime @default(now())
   createdAt DateTime @default(now())
 
   user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
   budget Budget? @relation(fields: [budgetId], references: [id], onDelete: SetNull)
+
+  @@index([userId])
+  @@unique([id, userId])
+}
+
+model UserCategory {
+  id        String   @id @default(cuid())
+  name      String
+  userId    String
+  createdAt DateTime @default(now())
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([name, userId])
+  @@index([userId])
+}
+
+model RecurringExpense {
+  id               String   @id @default(cuid())
+  name             String
+  amount           Float
+  category         String?
+  dayOfMonth       Int      @default(1)
+  autoApply        Boolean  @default(true)
+  lastAppliedMonth String?
+  userId           String
+  createdAt        DateTime @default(now())
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@index([userId])
   @@unique([id, userId])

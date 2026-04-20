@@ -1,7 +1,8 @@
 import { BudgetWithSpending } from '@/types/Budget';
-import { MONTHS } from '@/lib/constants';
 import BudgetCard from './BudgetCard';
 import AddBudgetForm from './AddBudgetForm';
+import { getLocale } from '@/lib/i18n/getLocale';
+import { getT } from '@/lib/i18n/translations';
 
 const BudgetSection = ({
   budgets,
@@ -10,13 +11,14 @@ const BudgetSection = ({
   budgets: BudgetWithSpending[];
   month: string;
 }) => {
+  const t = getT(getLocale());
   const [year, monthNum] = month.split('-').map(Number);
-  const monthName = MONTHS[monthNum - 1];
+  const monthName = t.months[monthNum - 1];
 
   return (
     <div className='budget-section'>
       <div className='budget-section-header'>
-        <p className='section-label'>Budget Plans</p>
+        <p className='section-label'>{t.budgetPlans}</p>
         <p className='section-period'>
           {monthName} {year}
         </p>
@@ -28,10 +30,7 @@ const BudgetSection = ({
         <AddBudgetForm currentMonth={month} />
       </div>
       {budgets.length === 0 && (
-        <p className='no-budgets'>
-          No budgets for this month — create one below to start tracking your
-          spending goals.
-        </p>
+        <p className='no-budgets'>{t.noBudgetsMsg}</p>
       )}
     </div>
   );

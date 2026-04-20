@@ -2,11 +2,13 @@
 import { useRef, useState } from 'react';
 import addBudget from '@/app/actions/addBudget';
 import { toast } from 'react-toastify';
+import { useTranslations } from './LocaleProvider';
 
 const AddBudgetForm = ({ currentMonth }: { currentMonth: string }) => {
   const formRef = useRef<HTMLFormElement>(null);
   const [loading, setLoading] = useState(false);
   const [recurring, setRecurring] = useState(true);
+  const { t } = useTranslations();
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -17,7 +19,7 @@ const AddBudgetForm = ({ currentMonth }: { currentMonth: string }) => {
     if (error) {
       toast.error(error);
     } else {
-      toast.success('Budget created');
+      toast.success(t.budgetCreated);
       formRef.current?.reset();
       setRecurring(true);
     }
@@ -25,7 +27,7 @@ const AddBudgetForm = ({ currentMonth }: { currentMonth: string }) => {
 
   return (
     <div className='budget-add-card'>
-      <p className='budget-add-title'>+ New Budget</p>
+      <p className='budget-add-title'>{t.newBudget}</p>
       <form ref={formRef} onSubmit={handleSubmit}>
         <input type='hidden' name='isRecurring' value={recurring.toString()} />
         {!recurring && (
@@ -38,33 +40,33 @@ const AddBudgetForm = ({ currentMonth }: { currentMonth: string }) => {
             className={`budget-toggle-btn ${recurring ? 'active-recurring' : ''}`}
             onClick={() => setRecurring(true)}
           >
-            🔁 Every month
+            {t.everyMonth}
           </button>
           <button
             type='button'
             className={`budget-toggle-btn ${!recurring ? 'active-onetime' : ''}`}
             onClick={() => setRecurring(false)}
           >
-            📅 This month
+            {t.thisMonthLabel}
           </button>
         </div>
 
         <input
           type='text'
           name='name'
-          placeholder='e.g. Groceries, Rent...'
+          placeholder={t.budgetNamePlaceholder}
           required
         />
         <input
           type='number'
           name='amount'
-          placeholder='Monthly limit (€)'
+          placeholder={t.budgetAmountPlaceholder}
           step='0.01'
           min='1'
           required
         />
         <button type='submit' disabled={loading} className='btn btn-primary'>
-          {loading ? 'Adding...' : 'Create'}
+          {loading ? t.adding : t.create}
         </button>
       </form>
     </div>

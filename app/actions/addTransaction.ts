@@ -19,6 +19,10 @@ async function addTransaction(formData: FormData): Promise<TransactionResult> {
   const text = textValue.toString();
   const amount = parseFloat(amountValue.toString());
   const budgetId = (formData.get('budgetId') as string) || null;
+  const category = (formData.get('category') as string) || null;
+  const comment = (formData.get('comment') as string) || null;
+  const dateStr = formData.get('date') as string;
+  const date = dateStr ? new Date(dateStr) : new Date();
 
   const session = await auth();
   const userId = session?.user?.id;
@@ -26,7 +30,7 @@ async function addTransaction(formData: FormData): Promise<TransactionResult> {
 
   try {
     const transactionData = await db.transaction.create({
-      data: { text, amount, userId, budgetId },
+      data: { text, amount, userId, budgetId, category, comment, date },
     });
 
     revalidatePath('/');

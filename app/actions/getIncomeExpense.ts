@@ -18,9 +18,9 @@ async function getIncomeExpense(month?: string): Promise<{
 
     if (month) {
       const [year, monthNum] = month.split('-').map(Number);
-      where.createdAt = {
-        gte: new Date(year, monthNum - 1, 1),
-        lt: new Date(year, monthNum, 1),
+      where.date = {
+        gte: new Date(Date.UTC(year, monthNum - 1, 1)),
+        lt: new Date(Date.UTC(year, monthNum, 1)),
       };
     }
 

@@ -5,6 +5,8 @@ import Header from '@/components/Header';
 import Providers from '@/components/Providers';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { LocaleProvider } from '@/components/LocaleProvider';
+import { getLocale } from '@/lib/i18n/getLocale';
 
 const roboto = Roboto({ weight: ['400', '500', '700'], subsets: ['latin'] });
 
@@ -13,18 +15,22 @@ export const metadata: Metadata = {
   description: 'Track your income and expenses',
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const locale = getLocale();
+
   return (
-    <html lang='en'>
+    <html lang={locale}>
       <body className={roboto.className}>
         <Providers>
-          <Header />
-          <main className='container'>{children}</main>
-          <ToastContainer position='bottom-right' theme='colored' />
+          <LocaleProvider locale={locale}>
+            <Header />
+            <main className='container'>{children}</main>
+            <ToastContainer position='bottom-right' theme='colored' />
+          </LocaleProvider>
         </Providers>
       </body>
     </html>

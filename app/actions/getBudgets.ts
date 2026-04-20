@@ -12,8 +12,8 @@ async function getBudgets(month: string): Promise<{
   if (!userId) return { error: 'User not found' };
 
   const [year, monthNum] = month.split('-').map(Number);
-  const start = new Date(year, monthNum - 1, 1);
-  const end = new Date(year, monthNum, 1);
+  const start = new Date(Date.UTC(year, monthNum - 1, 1));
+  const end = new Date(Date.UTC(year, monthNum, 1));
 
   try {
     const budgets = await db.budget.findMany({
@@ -28,7 +28,7 @@ async function getBudgets(month: string): Promise<{
         transactions: {
           where: {
             amount: { lt: 0 },
-            createdAt: { gte: start, lt: end },
+            date: { gte: start, lt: end },
           },
           select: { amount: true },
         },

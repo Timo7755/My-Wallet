@@ -7,6 +7,7 @@ import { Transaction } from '@/types/Transaction';
 async function getTransactions(options?: {
   month?: string;
   sort?: 'asc' | 'desc';
+  category?: string;
 }): Promise<{ transactions?: Transaction[]; error?: string }> {
   const session = await auth();
   const userId = session?.user?.id;
@@ -16,21 +17,26 @@ async function getTransactions(options?: {
   try {
     const where: Prisma.TransactionWhereInput = { userId };
 
+    if (options?.category) {
+      where.category = options.category;
+    }
+
     if (options?.month) {
       const [year, monthNum] = options.month.split('-').map(Number);
-      where.createdAt = {
-        gte: new Date(year, monthNum - 1, 1),
-        lt: new Date(year, monthNum, 1),
+      where.date = {
+        gte: new Date(Date.UTC(year, monthNum - 1, 1)),
+        lt: new Date(Date.UTC(year, monthNum, 1)),
       };
     }
 
     const transactions = await db.transaction.findMany({
       where,
-      orderBy: { createdAt: options?.sort === 'asc' ? 'asc' : 'desc' },
+      orderBy: { date: options?.sort === 'asc' ? 'asc' : 'desc' },
     });
 
     return { transactions };
-  } catch {
+  } catch (e) {
+    console.error('getTransactions error:', e);
     return { error: 'Database error' };
   }
 }
