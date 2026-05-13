@@ -21,7 +21,7 @@ const TransactionItem = ({
 
   const dateLabel = new Date(transaction.date).toLocaleDateString(
     locale === 'sl' ? 'sl-SI' : 'en-GB',
-    { day: 'numeric', month: 'short', year: 'numeric', timeZone: 'UTC' }
+    { weekday: 'long', day: 'numeric', month: 'short', year: 'numeric', timeZone: 'UTC' }
   );
 
   const handleDelete = async () => {
