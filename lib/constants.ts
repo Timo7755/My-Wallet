@@ -8,6 +8,7 @@ export const INCOME_CATEGORIES = ['Salary', 'Other'] as const;
 export const CATEGORIES = [
   'Food & Groceries',
   'Dining Out',
+  'Drinks',
   'Transport',
   'Gas & Fuel',
   'Housing & Rent',

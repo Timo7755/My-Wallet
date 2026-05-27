@@ -95,12 +95,12 @@ const AddTransaction = ({
       </div>
       <form ref={formRef} action={clientAction}>
         <div className='form-control'>
-          <label htmlFor='text'>{t.description}</label>
-          <input type='text' id='text' name='text' placeholder={type === 'income' ? t.descriptionPlaceholderIncome : t.descriptionPlaceholderExpense} />
-        </div>
-        <div className='form-control'>
           <label htmlFor='amount'>{t.amount}</label>
           <input type='text' inputMode='decimal' name='amount' id='amount' placeholder='0.00' />
+        </div>
+        <div className='form-control'>
+          <label htmlFor='text'>{t.description}</label>
+          <input type='text' id='text' name='text' placeholder={type === 'income' ? t.descriptionPlaceholderIncome : t.descriptionPlaceholderExpense} />
         </div>
         <div className='form-control'>
           <label htmlFor='comment'>{t.comment}</label>

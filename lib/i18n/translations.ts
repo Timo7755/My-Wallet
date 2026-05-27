@@ -264,6 +264,7 @@ const sl: Translations = {
   categoryLabels: {
     "Food & Groceries": "Hrana in živila",
     "Dining Out": "Restavracije",
+    Drinks: "Pijača",
     Transport: "Prevoz",
     "Gas & Fuel": "Gorivo",
     "Housing & Rent": "Stanovanje in najemnina",
